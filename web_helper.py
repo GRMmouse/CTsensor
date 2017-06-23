@@ -37,7 +37,7 @@ def send_data(sock, data, EOL, BUF_SIZ = 2048, RESEND_MAX = 5, DISP_INT = 1000):
     # Send the data
     while (START < len(bytes)):
         if ((START//PACKET_LEN) % DISP_INT == 0):
-            percent_done = START*100//len(bytes);
+            percent_done = START*100//len(bytes)
             print('%d%%'%percent_done)
         pack = bytes[START:END] 
         if (not send_pack(sock, pack, b'D', EOL, BUF_SIZ, RESEND_MAX)):
@@ -66,7 +66,7 @@ def recv_data(sock, EOL, BUF_SIZ = 2048, DISP_INT = 1000):
             break;
         elif (unpacked_data[0:1] == b'P' and (unpacked_data[-len(EOL):] == EOL)):
             prmts_byte = unpacked_data[1:-len(EOL)]
-            data.prmts = eval('wave.%s'%prmts_byte.decode()) # Danger! Eval!!!
+            data.prmts = eval(prmts_byte.decode()) # Danger! Eval!!!
         elif (unpacked_data[0:1] == b'D' and (unpacked_data[-len(EOL):] == EOL)):
             unpacked_data_tokeep= unpacked_data[1:-len(EOL)]
             frames += unpacked_data_tokeep 
@@ -83,5 +83,5 @@ def recv_data(sock, EOL, BUF_SIZ = 2048, DISP_INT = 1000):
             print('Requesting resend')
             sock.send('U'.encode())
     data.bytes = frames
-    print('Recieve Done')
+    print('Receive Done')
     return data

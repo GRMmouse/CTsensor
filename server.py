@@ -11,7 +11,7 @@ ADDR = (HOST, PORT)
 DISP_INT = 1000
 EOL = b'EOL'
 
-def main():
+def main(path):
     tcpSerSock = socket(AF_INET, SOCK_STREAM)
     tcpSerSock.bind(ADDR)
     tcpSerSock.listen(1)
@@ -27,11 +27,11 @@ def main():
         flag = False
     #save packed data to a .wav file
     if (data):
-        write_sound('test_internet.wav', data)
+        write_sound(path, data)
     else:
         print('Failed to receive data')
     #close socket tcpSerSockection
     tcpSerSock.close()
 
 if __name__ == '__main__':
-    main()
+    main('out .wav')

@@ -17,7 +17,7 @@ def main():
     tcpCliSock = socket(AF_INET, SOCK_STREAM)
     tcpCliSock.connect(ADDR)
 
-    data = read_sound("test.wav")
+    data = read_sound('test.wav')
     send_data(tcpCliSock, data, EOL, BUF_SIZ, RESEND_MAX, DISP_INT)
     tcpCliSock.close()
 
