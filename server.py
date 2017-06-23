@@ -1,19 +1,21 @@
 from socket import *
-from time import ctime
-import wave
+from wave_helper import *
+from web_helper import *
 
+# Globals are evil
+# Internet globals
 HOST = '192.168.0.105'
 PORT = 1235
-BUFSIZ = 2048
+BUF_SIZ = 2048
 ADDR = (HOST, PORT)
-
+DISP_INT = 1000
+EOL = b'EOL'
 
 def main():
     tcpSerSock = socket(AF_INET, SOCK_STREAM)
     tcpSerSock.bind(ADDR)
-    tcpSerSock.listen(5)
-    frames = b""
-    EOL = "EOL".encode()
+    tcpSerSock.listen(1)
+
     flag = True
 
     while flag:
@@ -21,25 +23,13 @@ def main():
         (tcpCliSock, addr) = tcpSerSock.accept()
         (IP, port) = addr
         print('...Connected from: %s:%d'%(IP, port))
-
-        while True:
-            unpacked_data = tcpCliSock.recv(BUFSIZ)
-            if (unpacked_data[-3:] == EOL): #check to see if the end of the packet has 'eol!!'
-                tcpCliSock.send("S".encode())
-                unpacked_data_tokeep= unpacked_data[:-3]
-                frames += unpacked_data_tokeep
-            elif (unpacked_data.decode() == "NM"):
-                print("End of data")
-                flag=False
-                tcpCliSock.close()
-                break
-            else:
-                tcpCliSock.send("U".encode())  #if eol doesnt match ask to resend
-                print("resend data")
-
+        data = recv_data(tcpCliSock, EOL, BUF_SIZ, DISP_INT)
+        flag = False
     #save packed data to a .wav file
-    
-
+    if (data):
+        write_sound('test_internet.wav', data)
+    else:
+        print('Failed to receive data')
     #close socket tcpSerSockection
     tcpSerSock.close()
 
