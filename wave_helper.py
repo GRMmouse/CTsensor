@@ -6,7 +6,7 @@ import wave
 class Struct(object):
     pass
 
-def readSound(in_path):
+def read_sound(in_path):
     f = wave.open(in_path, 'rb')
     n = f.getnframes()
     data = Struct()
@@ -14,7 +14,7 @@ def readSound(in_path):
     data.prms = f.getparams()
     return data
 
-def writeSound(out_path, bytes, prms):
+def write_sound(out_path, bytes, prms):
     with wave.open(out_path,'w') as outfile:
         outfile.setparams(prms)
         outfile.writeframes(bytes)
@@ -23,5 +23,5 @@ def writeSound(out_path, bytes, prms):
 
 if __name__ == '__main__':
     # Testing goes into here
-    data = readSound("test.wav")
-    writeSound("test_out.wav", data.bytes, data.prms)
+    data = read_sound("test.wav")
+    write_sound("test_out.wav", data.bytes, data.prms)
