@@ -57,6 +57,7 @@ def recv_data(sock, EOL, BUF_SIZ = 2048, DISP_INT = 1000):
     while True: # Danger! Infinite Loop
         # Receive data
         unpacked_data = sock.recv(BUF_SIZ)
+        # print(unpacked_data)
         # Interpret Data
         succ = True
         if (unpacked_data == b'F'):
@@ -66,7 +67,9 @@ def recv_data(sock, EOL, BUF_SIZ = 2048, DISP_INT = 1000):
             break;
         elif (unpacked_data[0:1] == b'P' and (unpacked_data[-len(EOL):] == EOL)):
             prmts_byte = unpacked_data[1:-len(EOL)]
-            data.prmts = eval(prmts_byte.decode()) # Danger! Eval!!!
+            windows_str = "wave."
+            linux_str = ""
+            data.prmts = eval(linux_str+prmts_byte.decode()) # Danger! Eval!!!
         elif (unpacked_data[0:1] == b'D' and (unpacked_data[-len(EOL):] == EOL)):
             unpacked_data_tokeep= unpacked_data[1:-len(EOL)]
             frames += unpacked_data_tokeep 

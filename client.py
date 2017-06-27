@@ -6,7 +6,7 @@ from web_helper import *
 # Internet Globas
 HOST = '192.168.0.105'#'139.196.182.136'
 PORT = 1235
-BUF_SIZ = 2048
+BUF_SIZ = 65536
 ADDR = (HOST, PORT)
 # Packet Globals
 EOL= b'EOL'
